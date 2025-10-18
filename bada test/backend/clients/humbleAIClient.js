@@ -29,8 +29,12 @@ export class HumbleAIClient {
     this.client = axios.create({
       baseURL: this.baseURL,
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Token ${humbleApiKey}`,
+        common: {
+          Authorization: `Token ${humbleApiKey}`,
+        },
+        post: {
+          "Content-Type": "application/json",
+        },
       },
     });
   }
@@ -47,31 +51,42 @@ export class HumbleAIClient {
         this.humbleApiKey?.substring(0, 20) + "..."
       );
       // Humble AI requires 'sub' field in the request body
+      // The sub field should be the baseId
       const payload = {
-        sub: this.baseId, // Use baseId as the subject/subscription
+        sub: this.baseId,
       };
-      console.log("Sending payload:", payload);
-      console.log("Full request config:", {
-        url: `https://platform.thehumbleai.com/api/assistant/chats/${this.baseId}`,
-        method: "POST",
-        headers: this.client.defaults.headers,
-        data: payload,
-      });
-      const response = await this.client.post(`/chats/${this.baseId}`, payload);
+      console.log("Sending payload:", JSON.stringify(payload));
+
+      // Create a new axios instance with explicit config to ensure body is sent
+      const response = await this.client.post(
+        `/chats/${this.baseId}`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
-      console.error("❌ FULL ERROR OBJECT:", error);
-      console.error("❌ Error response status:", error.response?.status);
       console.error("❌ Error response data:", error.response?.data);
-      console.error("❌ Error response headers:", error.response?.headers);
-      console.error("❌ Error message:", error.message);
+      console.error("❌ Error response status:", error.response?.status);
 
-      const errorMsg =
-        error.response?.data?.detail ||
-        error.response?.data?.message ||
-        error.response?.data ||
-        error.message;
+      // Extract error message
+      let errorMsg = error.message;
+      if (error.response?.data) {
+        if (Array.isArray(error.response.data)) {
+          errorMsg =
+            error.response.data[0]?.message ||
+            JSON.stringify(error.response.data);
+        } else if (typeof error.response.data === "object") {
+          errorMsg =
+            error.response.data.message || JSON.stringify(error.response.data);
+        } else {
+          errorMsg = error.response.data;
+        }
+      }
 
       console.error("❌ Final error message:", errorMsg);
       throw new Error(`Failed to create chat: ${errorMsg}`);
