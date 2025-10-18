@@ -51,11 +51,12 @@ export class HumbleAIClient {
         this.humbleApiKey?.substring(0, 20) + "..."
       );
 
-      // According to Humble AI docs, the create chat endpoint takes NO request body
-      // Explicitly pass null as data to prevent axios from sending any body
-      console.log("Attempting POST to /chats/" + this.baseId + " (no body)");
+      // Humble AI expects an empty object as the request body
+      console.log(
+        "Attempting POST to /chats/" + this.baseId + " with empty object"
+      );
 
-      const response = await this.client.post(`/chats/${this.baseId}`, null);
+      const response = await this.client.post(`/chats/${this.baseId}`, {});
       console.log("✅ Chat created successfully!");
       console.log("  Response status:", response.status);
       console.log("  Response data:", response.data);
