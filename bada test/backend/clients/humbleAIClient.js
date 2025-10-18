@@ -70,12 +70,29 @@ export class HumbleAIClient {
       console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
-      console.error("❌ Error response data:", error.response?.data);
-      console.error("❌ Error response status:", error.response?.status);
+      console.error(
+        "❌ CATCH BLOCK - Error response data:",
+        error.response?.data
+      );
+      console.error(
+        "❌ CATCH BLOCK - Error response status:",
+        error.response?.status
+      );
+      console.error("❌ CATCH BLOCK - Error message:", error.message);
+      console.error(
+        "❌ CATCH BLOCK - Full error:",
+        JSON.stringify(error, null, 2)
+      );
 
       // Extract error message
       let errorMsg = error.message;
       if (error.response?.data) {
+        console.error("❌ Response data type:", typeof error.response.data);
+        console.error(
+          "❌ Response data is array:",
+          Array.isArray(error.response.data)
+        );
+
         if (Array.isArray(error.response.data)) {
           errorMsg =
             error.response.data[0]?.message ||
@@ -84,7 +101,7 @@ export class HumbleAIClient {
           errorMsg =
             error.response.data.message || JSON.stringify(error.response.data);
         } else {
-          errorMsg = error.response.data;
+          errorMsg = String(error.response.data);
         }
       }
 
