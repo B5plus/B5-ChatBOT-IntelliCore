@@ -5,7 +5,7 @@ const API_CONFIG = {
   // apiBaseUrl: "http://localhost:3004",
 
   // For production/Netlify deployment
-  apiBaseUrl: "https://heroic-toffee-b2c1e6.netlify.app", // Netlify backend URL
+  apiBaseUrl: "https://backendchatbotb5.netlify.app", // Netlify backend URL
 };
 // ====================================
 
