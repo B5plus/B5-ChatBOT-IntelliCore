@@ -61,17 +61,14 @@ export class HumbleAIClient {
       console.log("Sending payload string:", payloadString);
       console.log("Payload string length:", payloadString.length);
 
-      // Send with explicit headers and data as string
-      const response = await this.client.post(
-        `/chats/${this.baseId}`,
-        payloadString,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Content-Length": payloadString.length,
-          },
-        }
-      );
+      // Try endpoint without baseId in path (just /chats)
+      console.log("Attempting POST to /chats with payload");
+      const response = await this.client.post(`/chats`, payloadString, {
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Length": payloadString.length,
+        },
+      });
       console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
