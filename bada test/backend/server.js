@@ -18,7 +18,8 @@ const HARDCODED_CONFIG = {
 // ==========================================
 
 const app = express();
-const PORT = HARDCODED_CONFIG.PORT;
+// Use PORT from environment (Render sets this), fallback to hardcoded
+const PORT = process.env.PORT || HARDCODED_CONFIG.PORT;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const AI_PROVIDER = HARDCODED_CONFIG.AI_PROVIDER;
 
