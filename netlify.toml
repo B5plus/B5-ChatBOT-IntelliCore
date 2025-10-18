@@ -11,14 +11,29 @@
   to = "/landing.html"
   status = 200
 
-# Cache settings
+# Cache settings - Disable caching for HTML and JS files
 [[headers]]
-  for = "/*"
+  for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=3600"
+    Cache-Control = "no-cache, no-store, must-revalidate"
 
 [[headers]]
-  for = "/index.html"
+  for = "/*.js"
   [headers.values]
-    Cache-Control = "no-cache"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
 
