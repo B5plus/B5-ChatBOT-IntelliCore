@@ -23,7 +23,20 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const AI_PROVIDER = HARDCODED_CONFIG.AI_PROVIDER;
 
 // Middleware
-app.use(cors());
+// Configure CORS to allow requests from Netlify frontend
+app.use(
+  cors({
+    origin: [
+      "https://b5chatbot.netlify.app",
+      "http://localhost:3005",
+      "http://localhost:3000",
+      "*", // Allow all origins for development
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 // Serve frontend files from the frontend folder
 app.use(express.static(path.join(__dirname, "../frontend/public")));
