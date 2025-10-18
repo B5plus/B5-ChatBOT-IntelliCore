@@ -4,8 +4,8 @@ const API_CONFIG = {
   // For local development
   // apiBaseUrl: "http://localhost:3004",
 
-  // For production/Netlify deployment
-  apiBaseUrl: "https://backendchatbotb5.netlify.app", // Netlify backend URL
+  // For production/Render deployment
+  apiBaseUrl: "https://b5-chatbot-intellicore.onrender.com", // Render backend URL
 };
 // ====================================
 
