@@ -51,12 +51,12 @@ export class HumbleAIClient {
         this.humbleApiKey?.substring(0, 20) + "..."
       );
 
-      // Humble AI expects an empty object as the request body
-      console.log(
-        "Attempting POST to /chats/" + this.baseId + " with empty object"
-      );
+      // Humble AI expects an object with 'sub' field in the request body
+      const payload = { sub: this.baseId };
+      console.log("Attempting POST to /chats/" + this.baseId);
+      console.log("Payload:", JSON.stringify(payload));
 
-      const response = await this.client.post(`/chats/${this.baseId}`, {});
+      const response = await this.client.post(`/chats/${this.baseId}`, payload);
       console.log("✅ Chat created successfully!");
       console.log("  Response status:", response.status);
       console.log("  Response data:", response.data);
