@@ -1,5 +1,6 @@
 import { HumbleAIClient } from "../clients/humbleAIClient.js";
 import { OpenAIClient } from "../clients/openaiClient.js";
+import { LocalAIClient } from "../clients/localAIClient.js";
 
 class AIService {
   constructor(provider, config) {
@@ -9,7 +10,12 @@ class AIService {
   }
 
   initializeClient() {
-    if (this.provider === "humble") {
+    if (this.provider === "local") {
+      return new LocalAIClient(
+        this.config.HUMBLE_BASE_ID,
+        this.config.OPENAI_API_KEY
+      );
+    } else if (this.provider === "humble") {
       return new HumbleAIClient(
         this.config.HUMBLE_API_KEY,
         this.config.HUMBLE_BASE_ID,

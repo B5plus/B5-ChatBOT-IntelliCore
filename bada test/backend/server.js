@@ -7,7 +7,7 @@ import { Logger } from "./utils/logger.js";
 // ===== HARDCODED ENVIRONMENT VARIABLES =====
 const HARDCODED_CONFIG = {
   PORT: 3004,
-  AI_PROVIDER: "humble", // or "openai"
+  AI_PROVIDER: "local", // "local" for testing, "humble" for production, "openai" for OpenAI
   HUMBLE_API_KEY: "0199dcfb-ca11-7062-a684-f6df5274d0eb",
   HUMBLE_BASE_ID: "0199dcfb-ca11-7062-a684-f6df5274d0eb",
   OPENAI_API_KEY:
