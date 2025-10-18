@@ -59,29 +59,17 @@ export class HumbleAIClient {
       console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
-      console.error(
-        "❌ CATCH BLOCK - Error response data:",
-        error.response?.data
-      );
-      console.error(
-        "❌ CATCH BLOCK - Error response status:",
-        error.response?.status
-      );
-      console.error("❌ CATCH BLOCK - Error message:", error.message);
-      console.error(
-        "❌ CATCH BLOCK - Full error:",
-        JSON.stringify(error, null, 2)
-      );
+      console.error("❌ CREATE CHAT ERROR");
+      console.error("  Error message:", error.message);
+      console.error("  Error code:", error.code);
+      console.error("  Response status:", error.response?.status);
+      console.error("  Response data:", error.response?.data);
+      console.error("  Response headers:", error.response?.headers);
+      console.error("  Full error:", error);
 
       // Extract error message
       let errorMsg = error.message;
       if (error.response?.data) {
-        console.error("❌ Response data type:", typeof error.response.data);
-        console.error(
-          "❌ Response data is array:",
-          Array.isArray(error.response.data)
-        );
-
         if (Array.isArray(error.response.data)) {
           errorMsg =
             error.response.data[0]?.message ||
