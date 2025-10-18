@@ -1,9 +1,20 @@
-﻿// Chat functionality
+﻿// ===== HARDCODED CONFIGURATION =====
+// Update these values based on your deployment
+const API_CONFIG = {
+  // For local development
+  // apiBaseUrl: "http://localhost:3004",
+
+  // For production/Vercel deployment
+  apiBaseUrl: "https://your-backend-url.com", // Replace with your actual backend URL
+};
+// ====================================
+
+// Chat functionality
 const chatInput = document.getElementById("chatInput");
 const chatSendBtn = document.getElementById("chatSendBtn");
 const chatMessages = document.getElementById("chatMessages");
 let currentChatId = null;
-const apiBaseUrl = "http://localhost:3004";
+const apiBaseUrl = API_CONFIG.apiBaseUrl;
 
 // Clear welcome message on first message
 let welcomeCleared = false;

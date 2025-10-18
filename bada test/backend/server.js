@@ -1,18 +1,26 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import { AIService } from "./services/aiService.js";
 import { createChatRoutes } from "./routes/chatRoutes.js";
 import { Logger } from "./utils/logger.js";
 
-dotenv.config();
+// ===== HARDCODED ENVIRONMENT VARIABLES =====
+const HARDCODED_CONFIG = {
+  PORT: 3004,
+  AI_PROVIDER: "humble", // or "openai"
+  HUMBLE_API_KEY: "0199dcfb-ca11-7062-a684-f6df5274d0eb",
+  HUMBLE_BASE_ID: "0199dcfb-ca11-7062-a684-f6df5274d0eb",
+  OPENAI_API_KEY:
+    "sk-proj-JBwcAD65E3zL7Yd8Ky9Lm0Np1Qr2St3Uv4Wx5Yz6Aa7Bb8Cc9Dd0Ee1Ff2Gg3Hh4Ii5Jj6Kk7Ll8Mm9Nn0Oo1Pp2Qq3Rr4Ss5Tt6Uu7Vv8Ww9Xx0Yy1Zz2Aa3Bb4Cc5Dd6Ee7Ff8Gg9Hh0Ii1Jj2Kk3Ll4Mm5Nn6Oo7Pp8Qq9Rr0Ss1Tt2Uu3Vv4Ww5Xx6Yy7Zz8Aa9Bb0Cc1Dd2Ee3Ff4Gg5Hh6Ii7Jj8Kk9Ll0Mm1Nn2Oo3Pp4Qq5Rr6Ss7Tt8Uu9Vv0Ww1Xx2Yy3Zz4Aa5Bb6Cc7Dd8Ee9Ff0Gg1Hh2Ii3Jj4Kk5Ll6Mm7Nn8Oo9Pp0Qq1Rr2Ss3Tt4Uu5Vv6Ww7Xx8Yy9Zz0Aa1Bb2Cc3Dd4Ee5Ff6Gg7Hh8Ii9Jj0Kk1Ll2Mm3Nn4Oo5Pp6Qq7Rr8Ss9Tt0Uu1Vv2Ww3Xx4Yy5Zz6Aa7Bb8Cc9Dd0Ee1Ff2Gg3Hh4Ii5Jj6Kk7Ll8Mm9Nn0Oo1Pp2Qq3Rr4Ss5Tt6Uu7Vv8Ww9Xx0Yy1Zz2Aa3Bb4Cc5Dd6Ee7Ff8Gg9Hh0Ii1Jj2Kk3Ll4Mm5Nn6Oo7Pp8Qq9Rr0Ss1Tt2Uu3Vv4Ww5Xx6Yy7Zz8Aa9Bb0Cc1Dd2Ee3Ff4Gg5Hh6Ii7Jj8Kk9Ll0Mm1Nn2Oo3Pp4Qq5Rr6Ss7Tt8Uu9Vv0Ww1Xx2Yy3Zz4Aa5Bb6Cc7Dd8Ee9Ff0Gg1Hh2Ii3Jj4Kk5Ll6Mm7Nn8Oo9Pp0Qq1Rr2Ss3Tt4Uu5Vv6Ww7Xx8Yy9Zz0Aa1Bb2Cc3Dd4Ee5Ff6Gg7Hh8Ii9Jj0Kk1Ll2Mm3Nn4Oo5Pp6Qq7Rr8Ss9Tt0Uu1Vv2Ww3Xx4Yy5Zz6Aa7Bb8Cc9Dd0Ee1Ff2Gg3Hh4Ii5Jj6Kk7Ll8Mm9Nn0Oo1Pp2Qq3Rr4Ss5Tt6Uu7Vv8Ww9Xx0Yy1Zz2Aa3Bb4Cc5Dd6Ee7Ff8Gg9Hh0Ii1Jj2Kk3Ll4Mm5Nn6Oo7Pp8Qq9Rr0Ss1Tt2Uu3Vv4Ww5Xx6Yy7Zz4NV2kf7PNoA",
+};
+// ==========================================
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = HARDCODED_CONFIG.PORT;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const AI_PROVIDER = process.env.AI_PROVIDER || "openai";
+const AI_PROVIDER = HARDCODED_CONFIG.AI_PROVIDER;
 
 // Middleware
 app.use(cors());
@@ -22,9 +30,9 @@ app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 // Initialize AI Service
 const aiService = new AIService(AI_PROVIDER, {
-  HUMBLE_API_KEY: process.env.HUMBLE_API_KEY,
-  HUMBLE_BASE_ID: process.env.HUMBLE_BASE_ID,
-  OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+  HUMBLE_API_KEY: HARDCODED_CONFIG.HUMBLE_API_KEY,
+  HUMBLE_BASE_ID: HARDCODED_CONFIG.HUMBLE_BASE_ID,
+  OPENAI_API_KEY: HARDCODED_CONFIG.OPENAI_API_KEY,
 });
 
 // Debug: Log API key status
