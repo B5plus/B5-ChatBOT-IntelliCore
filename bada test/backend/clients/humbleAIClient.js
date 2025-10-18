@@ -51,24 +51,11 @@ export class HumbleAIClient {
         this.humbleApiKey?.substring(0, 20) + "..."
       );
 
-      // Humble AI requires 'sub' field in the request body
-      const payload = {
-        sub: this.baseId,
-      };
+      // According to Humble AI docs, the create chat endpoint takes NO request body
+      // Just POST to /chats/{baseId} with Authorization header
+      console.log("Attempting POST to /chats/" + this.baseId + " (no body)");
 
-      // Serialize to JSON string explicitly
-      const payloadString = JSON.stringify(payload);
-      console.log("Sending payload string:", payloadString);
-      console.log("Payload string length:", payloadString.length);
-
-      // Try endpoint without baseId in path (just /chats)
-      console.log("Attempting POST to /chats with payload");
-      const response = await this.client.post(`/chats`, payloadString, {
-        headers: {
-          "Content-Type": "application/json",
-          "Content-Length": payloadString.length,
-        },
-      });
+      const response = await this.client.post(`/chats/${this.baseId}`);
       console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
