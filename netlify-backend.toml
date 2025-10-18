@@ -1,5 +1,6 @@
 # Netlify Configuration for Backend Deployment
-# This file is for deploying the backend as a separate service
+# IMPORTANT: This is for a SEPARATE backend deployment
+# Use this ONLY if deploying backend as a separate Netlify site
 
 [build]
   base = "bada test/backend"
