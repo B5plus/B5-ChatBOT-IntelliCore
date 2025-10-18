@@ -59,11 +59,16 @@ export class HumbleAIClient {
         error.response?.data?.detail ||
         error.response?.data?.message ||
         error.message;
-      console.error("Create chat error:", errorMsg);
-      console.error("Full error response:", error.response?.data);
-      console.error("Status code:", error.response?.status);
-      console.error("Error config:", error.config);
-      console.error("Full error:", error);
+      console.error("❌ Create chat error:", errorMsg);
+      console.error(
+        "❌ Full error response:",
+        JSON.stringify(error.response?.data, null, 2)
+      );
+      console.error("❌ Status code:", error.response?.status);
+      console.error("❌ Request URL:", error.config?.url);
+      console.error("❌ Request headers:", error.config?.headers);
+      console.error("❌ Request data:", error.config?.data);
+      console.error("❌ Full error:", error.toString());
       throw new Error(`Failed to create chat: ${errorMsg}`);
     }
   }
