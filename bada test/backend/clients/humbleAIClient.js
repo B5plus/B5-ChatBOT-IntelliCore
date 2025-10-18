@@ -46,7 +46,12 @@ export class HumbleAIClient {
         "Using Humble API Key:",
         this.humbleApiKey?.substring(0, 20) + "..."
       );
-      const response = await this.client.post(`/chats/${this.baseId}`, {});
+      // Humble AI requires 'sub' field in the request body
+      const payload = {
+        sub: this.baseId, // Use baseId as the subject/subscription
+      };
+      console.log("Sending payload:", payload);
+      const response = await this.client.post(`/chats/${this.baseId}`, payload);
       console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
