@@ -51,24 +51,29 @@ export class HumbleAIClient {
         sub: this.baseId, // Use baseId as the subject/subscription
       };
       console.log("Sending payload:", payload);
+      console.log("Full request config:", {
+        url: `https://platform.thehumbleai.com/api/assistant/chats/${this.baseId}`,
+        method: "POST",
+        headers: this.client.defaults.headers,
+        data: payload,
+      });
       const response = await this.client.post(`/chats/${this.baseId}`, payload);
       console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
+      console.error("❌ FULL ERROR OBJECT:", error);
+      console.error("❌ Error response status:", error.response?.status);
+      console.error("❌ Error response data:", error.response?.data);
+      console.error("❌ Error response headers:", error.response?.headers);
+      console.error("❌ Error message:", error.message);
+
       const errorMsg =
         error.response?.data?.detail ||
         error.response?.data?.message ||
+        error.response?.data ||
         error.message;
-      console.error("❌ Create chat error:", errorMsg);
-      console.error(
-        "❌ Full error response:",
-        JSON.stringify(error.response?.data, null, 2)
-      );
-      console.error("❌ Status code:", error.response?.status);
-      console.error("❌ Request URL:", error.config?.url);
-      console.error("❌ Request headers:", error.config?.headers);
-      console.error("❌ Request data:", error.config?.data);
-      console.error("❌ Full error:", error.toString());
+
+      console.error("❌ Final error message:", errorMsg);
       throw new Error(`Failed to create chat: ${errorMsg}`);
     }
   }
