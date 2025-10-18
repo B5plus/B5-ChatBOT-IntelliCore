@@ -50,20 +50,25 @@ export class HumbleAIClient {
         "Using Humble API Key:",
         this.humbleApiKey?.substring(0, 20) + "..."
       );
+
       // Humble AI requires 'sub' field in the request body
-      // The sub field should be the baseId
       const payload = {
         sub: this.baseId,
       };
-      console.log("Sending payload:", JSON.stringify(payload));
 
-      // Create a new axios instance with explicit config to ensure body is sent
+      // Serialize to JSON string explicitly
+      const payloadString = JSON.stringify(payload);
+      console.log("Sending payload string:", payloadString);
+      console.log("Payload string length:", payloadString.length);
+
+      // Send with explicit headers and data as string
       const response = await this.client.post(
         `/chats/${this.baseId}`,
-        payload,
+        payloadString,
         {
           headers: {
             "Content-Type": "application/json",
+            "Content-Length": payloadString.length,
           },
         }
       );
