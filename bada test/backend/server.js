@@ -38,8 +38,6 @@ app.use(
   })
 );
 app.use(express.json());
-// Serve frontend files from the frontend folder
-app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 // Initialize AI Service
 const aiService = new AIService(AI_PROVIDER, {
@@ -67,13 +65,18 @@ if (process.env.OPENAI_API_KEY) {
 
 Logger.success(`Using ${AI_PROVIDER} provider`);
 
-// Routes
-app.use("/api/chat", createChatRoutes(aiService));
-
+// ===== API ROUTES (MUST BE BEFORE STATIC FILES) =====
 // Health check
 app.get("/api/health", (_, res) => {
   res.json({ status: "ok", message: "Humble AI Chatbot is running" });
 });
+
+// Chat routes
+app.use("/api/chat", createChatRoutes(aiService));
+
+// ===== STATIC FILES (AFTER API ROUTES) =====
+// Serve frontend files from the frontend folder
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 // Serve landing.html for root path
 app.get("/", (_, res) => {
