@@ -1,0 +1,24 @@
+# Netlify Configuration for B5-ChatBOT-IntelliCore
+
+[build]
+  base = "bada test/frontend"
+  publish = "public"
+  command = ""
+
+# Redirect all routes to index.html for SPA support
+[[redirects]]
+  from = "/*"
+  to = "/landing.html"
+  status = 200
+
+# Cache settings
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
