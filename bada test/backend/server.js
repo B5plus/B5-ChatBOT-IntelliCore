@@ -1,7 +1,5 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
 import { AIService } from "./services/aiService.js";
 import { createChatRoutes } from "./routes/chatRoutes.js";
 import { Logger } from "./utils/logger.js";
@@ -20,7 +18,6 @@ const HARDCODED_CONFIG = {
 const app = express();
 // Use PORT from environment (Render sets this), fallback to hardcoded
 const PORT = process.env.PORT || HARDCODED_CONFIG.PORT;
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const AI_PROVIDER = HARDCODED_CONFIG.AI_PROVIDER;
 
 // Middleware
@@ -66,7 +63,7 @@ if (process.env.OPENAI_API_KEY) {
 
 Logger.success(`Using ${AI_PROVIDER} provider`);
 
-// ===== API ROUTES (MUST BE BEFORE STATIC FILES) =====
+// ===== API ROUTES ONLY =====
 // Health check
 app.get("/api/health", (_, res) => {
   res.json({ status: "ok", message: "Humble AI Chatbot is running" });
@@ -75,17 +72,39 @@ app.get("/api/health", (_, res) => {
 // Chat routes
 app.use("/api/chat", createChatRoutes(aiService));
 
-// ===== STATIC FILES (AFTER API ROUTES) =====
-// Serve frontend files from the frontend folder
-app.use(express.static(path.join(__dirname, "../frontend/public")));
-
-// Serve landing.html for root path
+// Root path - return API info (not frontend)
 app.get("/", (_, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/public", "landing.html"));
+  res.json({
+    status: "ok",
+    message: "Humble AI Chatbot Backend API",
+    endpoints: {
+      health: "/api/health",
+      createChat: "POST /api/chat/create",
+      sendMessage: "POST /api/chat/:chatId/message",
+      getChat: "GET /api/chat/:chatId",
+      deleteChat: "DELETE /api/chat/:chatId",
+    },
+    frontend: "https://b5chatbot.netlify.app/",
+  });
+});
+
+// 404 handler for undefined routes
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Not Found",
+    message: `Route ${req.method} ${req.path} not found`,
+    availableEndpoints: {
+      health: "/api/health",
+      createChat: "POST /api/chat/create",
+      sendMessage: "POST /api/chat/:chatId/message",
+      getChat: "GET /api/chat/:chatId",
+      deleteChat: "DELETE /api/chat/:chatId",
+    },
+  });
 });
 
 // Error handling middleware
-app.use((err, req, res) => {
+app.use((err, _, res) => {
   Logger.error("Request error", err.message);
   console.error("Full error details:", err);
   res.status(err.status || 500).json({
