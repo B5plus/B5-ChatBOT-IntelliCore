@@ -4,8 +4,8 @@ const API_CONFIG = {
   // For local development
   // apiBaseUrl: "http://localhost:3004",
 
-  // For production/Vercel deployment
-  apiBaseUrl: "https://your-backend-url.com", // Replace with your actual backend URL
+  // For production/Hostinger deployment
+  apiBaseUrl: "https://your-hostinger-backend-url.com", // Replace with your actual Hostinger backend URL
 };
 // ====================================
 
