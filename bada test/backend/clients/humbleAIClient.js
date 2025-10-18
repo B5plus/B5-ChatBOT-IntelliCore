@@ -29,12 +29,8 @@ export class HumbleAIClient {
     this.client = axios.create({
       baseURL: this.baseURL,
       headers: {
-        common: {
-          Authorization: `Token ${humbleApiKey}`,
-        },
-        post: {
-          "Content-Type": "application/json",
-        },
+        Authorization: `Token ${humbleApiKey}`,
+        "Content-Type": "application/json",
       },
     });
   }
@@ -54,7 +50,9 @@ export class HumbleAIClient {
       // Humble AI expects an object with 'sub' field in the request body
       const payload = { sub: this.baseId };
       console.log("Attempting POST to /chats/" + this.baseId);
-      console.log("Payload:", JSON.stringify(payload));
+      console.log("Payload object:", payload);
+      console.log("Payload JSON:", JSON.stringify(payload));
+      console.log("Axios client headers:", this.client.defaults.headers);
 
       const response = await this.client.post(`/chats/${this.baseId}`, payload);
       console.log("✅ Chat created successfully!");
