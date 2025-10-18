@@ -4,8 +4,8 @@ const API_CONFIG = {
   // For local development
   // apiBaseUrl: "http://localhost:3004",
 
-  // For production/Hostinger deployment
-  apiBaseUrl: "https://your-hostinger-backend-url.com", // Replace with your actual Hostinger backend URL
+  // For production/Netlify deployment
+  apiBaseUrl: "https://heroic-toffee-b2c1e6.netlify.app", // Netlify backend URL
 };
 // ====================================
 
