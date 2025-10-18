@@ -56,7 +56,10 @@ export class HumbleAIClient {
       console.log("Attempting POST to /chats/" + this.baseId + " (no body)");
 
       const response = await this.client.post(`/chats/${this.baseId}`);
-      console.log("Chat created successfully:", response.data);
+      console.log("✅ Chat created successfully!");
+      console.log("  Response status:", response.status);
+      console.log("  Response data:", response.data);
+      console.log("  Response headers:", response.headers);
       return response.data;
     } catch (error) {
       console.error("❌ CREATE CHAT ERROR");
