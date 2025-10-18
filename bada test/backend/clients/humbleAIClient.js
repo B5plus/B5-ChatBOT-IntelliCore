@@ -42,7 +42,12 @@ export class HumbleAIClient {
   async createChat() {
     try {
       console.log("Creating chat with baseId:", this.baseId);
+      console.log(
+        "Using Humble API Key:",
+        this.humbleApiKey?.substring(0, 20) + "..."
+      );
       const response = await this.client.post(`/chats/${this.baseId}`, {});
+      console.log("Chat created successfully:", response.data);
       return response.data;
     } catch (error) {
       const errorMsg =
@@ -52,6 +57,8 @@ export class HumbleAIClient {
       console.error("Create chat error:", errorMsg);
       console.error("Full error response:", error.response?.data);
       console.error("Status code:", error.response?.status);
+      console.error("Error config:", error.config);
+      console.error("Full error:", error);
       throw new Error(`Failed to create chat: ${errorMsg}`);
     }
   }

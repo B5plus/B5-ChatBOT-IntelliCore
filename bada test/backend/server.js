@@ -85,10 +85,12 @@ app.get("/", (_, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   Logger.error("Request error", err.message);
+  console.error("Full error details:", err);
   res.status(err.status || 500).json({
     error: err.message || "Internal server error",
+    details: process.env.NODE_ENV === "development" ? err.stack : undefined,
   });
 });
 
