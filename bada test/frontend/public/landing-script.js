@@ -1,5 +1,6 @@
 ﻿// ===== HARDCODED CONFIGURATION =====
 // Update these values based on your deployment
+// VERSION: 3 (Cache busting - force reload)
 const API_CONFIG = {
   // For local development
   // apiBaseUrl: "http://localhost:3004",
@@ -8,6 +9,10 @@ const API_CONFIG = {
   apiBaseUrl: "https://b5-chatbot-intellicore.onrender.com", // Render backend URL
 };
 // ====================================
+
+// Force log to verify this version is loaded
+console.log("✅ Landing Script v3 Loaded");
+console.log("✅ Backend URL:", API_CONFIG.apiBaseUrl);
 
 // Chat functionality
 const chatInput = document.getElementById("chatInput");
